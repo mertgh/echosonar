@@ -643,7 +643,7 @@ setInterval(() => {
 }, 100); // 10 times per second for state sync
 
 // Start server
-http.listen(PORT, () => {
+http.listen(PORT, '0.0.0.0', () => {
     console.log(`
     🚀 Echo.io Server is running!
     🌐 Visit http://localhost:${PORT}
