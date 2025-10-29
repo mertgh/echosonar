@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Echo.io - Stealth Multiplayer Game</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Font for game UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Game Container -->
+    <div id="gameContainer">
+        <!-- Main Menu / Start Screen -->
+        <div id="mainMenu" class="menu-screen active">
+            <div class="menu-content">
+                <h1 class="game-title">ECHO<span class="io">.io</span></h1>
+                <p class="game-tagline">Navigate in darkness • Use sonar pings • Stay hidden</p>
+                
+                <div class="player-setup">
+                    <input type="text" id="playerName" placeholder="Enter your name" maxlength="15">
+                    <button id="playBtn" class="play-btn">PLAY</button>
+                </div>
+                
+                <div class="instructions">
+                    <h3>How to Play:</h3>
+                    <ul>
+                        <li><span class="key">WASD</span> or <span class="key">Arrow Keys</span> to move</li>
+                        <li><span class="key">SPACE</span> to emit sonar ping</li>
+                        <li><span class="key">CLICK</span> to shoot at detected enemies</li>
+                        <li>Each shot deals <span style="color: #ff4444;">10 damage</span></li>
+                        <li>Use pings to reveal enemies, then shoot them!</li>
+                        <li>Survive and eliminate others to climb the leaderboard!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Game UI Overlay -->
+        <div id="gameUI" class="hidden">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="player-info">
+                    <span id="playerNameDisplay">Player</span>
+                    <span class="player-color" id="playerColorIndicator"></span>
+                </div>
+                
+                <div class="score-display">
+                    <span class="score-label">Time Alive:</span>
+                    <span id="scoreValue">0</span>s
+                </div>
+                
+                <div class="players-online">
+                    <span class="online-indicator"></span>
+                    <span id="playersCount">1</span> Players
+                </div>
+            </div>
+            
+            <!-- Ping Cooldown Indicator -->
+            <div class="ping-cooldown-container">
+                <div class="ping-status">
+                    <span class="ping-label">SONAR</span>
+                    <div class="ping-bar">
+                        <div id="pingCooldownBar" class="ping-fill"></div>
+                    </div>
+                    <span class="ping-key">SPACE</span>
+                </div>
+            </div>
+            
+            <!-- Minimap / Radar (optional) -->
+            <div class="minimap hidden" id="minimap">
+                <canvas id="minimapCanvas"></canvas>
+            </div>
+            
+            <!-- Health Bar -->
+            <div class="health-container">
+                <div class="health-bar-wrapper">
+                    <div class="health-bar">
+                        <div id="healthBarFill" class="health-fill"></div>
+                    </div>
+                    <span id="healthValue" class="health-text">100/100</span>
+                </div>
+            </div>
+            
+            <!-- Leaderboard -->
+            <div class="leaderboard" id="leaderboard">
+                <div class="leaderboard-header">
+                    <span class="leaderboard-title">LEADERBOARD</span>
+                </div>
+                <div class="leaderboard-content" id="leaderboardContent">
+                    <!-- Leaderboard entries will be added dynamically -->
+                </div>
+            </div>
+            
+            <!-- Kill Feed / Event Log -->
+            <div class="event-log" id="eventLog">
+                <!-- Events will be added dynamically -->
+            </div>
+            
+            <!-- Chat (optional) -->
+            <div class="chat-container hidden" id="chatContainer">
+                <div class="chat-messages" id="chatMessages"></div>
+                <input type="text" id="chatInput" placeholder="Press Enter to chat..." maxlength="100">
+            </div>
+        </div>
+        
+        <!-- Death Screen -->
+        <div id="deathScreen" class="menu-screen hidden">
+            <div class="death-content">
+                <h2 class="death-title">ELIMINATED</h2>
+                <div class="death-stats">
+                    <p>You survived for <span id="finalScore">0</span> seconds</p>
+                </div>
+                <button id="respawnBtn" class="play-btn">PLAY AGAIN</button>
+                <button id="menuBtn" class="menu-btn">MAIN MENU</button>
+            </div>
+        </div>
+        
+        <!-- Connection Status -->
+        <div id="connectionStatus" class="connection-status hidden">
+            <span class="status-icon">⚠️</span>
+            <span class="status-text">Connecting...</span>
+        </div>
+    </div>
+    
+    <!-- Socket.io Client -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- Game Scripts -->
+    <script src="game.js"></script>
+</body>
+</html>
